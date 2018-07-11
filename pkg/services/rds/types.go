@@ -14,12 +14,13 @@ type RDSBroker struct {
 
 // BindingCredential represent rds binding credential
 type BindingCredential struct {
-	Host     string `json:"host,omitempty"`
+	Host     string `json:"hostname,omitempty"`
 	Port     int    `json:"port,omitempty"`
 	Name     string `json:"name,omitempty"`
 	UserName string `json:"username,omitempty"`
 	Password string `json:"password,omitempty"`
 	URI      string `json:"uri,omitempty"`
+	JDBCURL  string `json:"jdbcUrl,omitempty"`
 	Type     string `json:"type,omitempty"`
 }
 
