@@ -22,6 +22,7 @@ func BuildBindingCredential(
 	logger lager.Logger) (BindingCredential, error) {
 
 	var uri string
+	var jdbcuri string
 
 	if servicetype == models.RDSPostgresqlServiceName {
 		// Postgresql
@@ -33,7 +34,8 @@ func BuildBindingCredential(
 		if err != nil {
 			logger.Debug(fmt.Sprintf("create database failed: %v", err))
 		}
-		uri = fmt.Sprintf("%s:%s@%s:%d/%s", username, password, host, port, name)
+		uri = fmt.Sprintf("mysql://%s:%s@%s:%d/%s?reconnect=true", username, password, host, port, name)
+		jdbcuri = fmt.Sprintf("jdbc:mysql://%s:%d/%s?user=%s&password=%s", host, port, name, username, password)
 	} else if servicetype == models.RDSSqlserverServiceName {
 		// Sqlserver
 		uri = fmt.Sprintf("%s:%s@%s:%d", username, password, host, port)
@@ -52,6 +54,7 @@ func BuildBindingCredential(
 		UserName: username,
 		Password: password,
 		URI:      uri,
+		JDBCURL:  jdbcuri,
 		Type:     servicetype,
 	}
 	return bc, nil
